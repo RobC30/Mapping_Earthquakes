@@ -49,9 +49,11 @@ d3.json(equakeData).then(function(data) {
     pointToLayer: function(feature, latlng) {
       console.log(data)
       return L.circleMarker(latlng)
-        .bindPopup('<h2>' + feature.properties.place + '</h2>')
   },
-  style: styleInfo
+  style: styleInfo,
+  onEachFeature: function(feature, layer){
+    layer.bindPopup('<h3> Magnitude: '+ feature.properties.mag + '<hr> Location: '+feature.properties.place + '</h3>' )
+  }
 }).addTo(map)
 })
 
@@ -62,9 +64,9 @@ function styleInfo(feature) {
   return {
     opacity: 1,
     fillOpacity: 1,
-    fillColor: '#ffae42',
-    color: '#000000',
-    radius: getRadius(),
+    fillColor: getColor(feature.properties.mag),
+    color: 'black',
+    radius: getRadius(feature.properties.mag),
     stroke: true,
     weight: 0.5
   }
@@ -77,4 +79,25 @@ function getRadius(magnitude) {
     return 1
   }
   return magnitude * 4
+  
+}
+
+// This function determines the color of the circle based on the magnitude of the earthquake.
+function getColor(magnitude) {
+  if (magnitude > 5) {
+    return "#ea2c2c"
+  }
+  if (magnitude > 4) {
+    return "#ea822c"
+  }
+  if (magnitude > 3) {
+    return "#ee9c00"
+  }
+  if (magnitude > 2) {
+    return "#eecc00"
+  }
+  if (magnitude > 1) {
+    return "#d4ee00"
+  }
+  return "#98ee00"
 }
