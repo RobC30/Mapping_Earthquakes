@@ -30,7 +30,6 @@ cities.forEach(function(city) {
         color: 'orange',
         fillColor: 'yellow'
         })
-    // L.marker(city.location)
         .bindPopup("<h2>" + city.city + ", " + city.state + "</h2> <hr> <h3>Population " + city.population + "</h3>")
         .addTo(map)
    })
